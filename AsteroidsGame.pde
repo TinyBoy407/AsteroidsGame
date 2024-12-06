@@ -54,7 +54,3 @@ public void keyPressed(){
      bob.show();
     }
   }
-     bob.hyperspace();
-     bob.show();
-    }
-  }
