@@ -1,7 +1,7 @@
 Spaceship bob = new Spaceship();//your variable declarations here
-Star[]nightSky = new Star[200];
-Asteroid sue = new Asteroid();
+Star[]nightSky = new Star[200];Asteroid sue = new Asteroid();
 ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
+ArrayList <Bullet> shot = new ArrayList<Bullet>();
 public void setup()
 {
   size(600,600);
@@ -16,21 +16,38 @@ public void setup()
 public void draw()
 {
   background(0);
+  bob.move();
+  bob.show();
   for(int i = 0; i < nightSky.length; i++){
     nightSky[i].show();
   }
   for(int i = 0; i < rocks.size(); i++){
-    rocks.get(i).move();
     rocks.get(i).show();
-    float d = dist((float)bob.getX(), (float)bob.getY(),(float)rocks.get(i).getX(),(float)rocks.get(i).getY());
+    rocks.get(i).move();
+    float d = dist((float)bob.getX(), (float)bob.getY(),(float)rocks.get(i).asteroidgetX(),(float)rocks.get(i).asteroidgetY());
     if(d<12){
       rocks.remove(i);
       i--;
     }
   }
-  sue.move();
-  bob.move();
-  bob.show();
+  for(int i = 0; i< shot.size();i++){
+    shot.get(i).show();
+    shot.get(i).move();
+    if(shot.get(i).getBulletX() > 599 || shot.get(i).getBulletY() > 599 || shot.get(i).getBulletX() < 1 || shot.get(i).getBulletY() < 1){
+        shot.remove(i);
+      }
+    for(int j = 0; j < rocks.size(); j++){
+      float d1 = 15;
+      if(shot.size() > 1){
+      d1 = dist((float)shot.get(i).getBulletX(), (float)shot.get(i).getBulletY(),(float)rocks.get(j).asteroidgetX(),(float)rocks.get(j).asteroidgetY());
+      }
+      if(d1 < 12){
+        shot.remove(i);
+        rocks.remove(j);
+        j--;
+      }
+    }
+  }
 }
 
 public void keyPressed(){
@@ -53,4 +70,7 @@ public void keyPressed(){
      bob.hyperspace();
      bob.show();
     }
+   if(key == ' '){
+     shot.add(new Bullet(bob));
+   }
   }
